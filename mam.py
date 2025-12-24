@@ -1,106 +1,94 @@
 import streamlit as st
-from streamlit_lottie import st_lottie
-import requests
 import time
 
-# --- CONFIGURATION & ASSETS ---
-st.set_page_config(page_title="Holiday Greetings", page_icon="🎄", layout="centered")
+st.set_page_config(page_title="Merry Christmas!", page_icon="🎄")
 
-# 1. THE "LOTTIE" LOADER
-# Lottie files are lightweight, high-quality animations. 
-def load_lottieurl(url):
-    r = requests.get(url)
-    if r.status_code != 200:
-        return None
-    return r.json()
-
-# Load assets (free animations from LottieFiles)
-lottie_santa = load_lottieurl("https://assets10.lottiefiles.com/packages/lf20_tijmpky4.json")
-lottie_gift = load_lottieurl("https://assets1.lottiefiles.com/private_files/lf30_p5tali1o.json")
-
-# 2. CUSTOM CSS INJECTION
-# This hides the standard Streamlit menu and sets a festive background.
 st.markdown("""
     <style>
-        /* Change background color to a deep festive red or snowy white */
-        .stApp {
-            background-color: #D32F2F; 
-        }
-        /* Style the main title */
-        h1 {
-            color: #FFFFFF;
-            font-family: 'Helvetica', sans-serif;
-            text-align: center;
-            text-shadow: 2px 2px 4px #000000;
-        }
-        /* Style standard text */
-        p {
-            color: #FFEBEE;
-            font-size: 1.2rem;
-            text-align: center;
-        }
-        /* Custom button styling */
-        .stButton>button {
-            color: #D32F2F;
-            background-color: white;
-            border-radius: 20px;
-            height: 3em;
-            width: 100%;
-            font-weight: bold;
-        }
+    /* 1. The Festive Background */
+    .stApp {
+        background-color: #a30000;
+        background-image: url("https://images.vexels.com/media/users/3/104576/raw/601231f7a7c64db42b5355996d46e049-beautiful-christmas-background.png");
+        background-size: auto;
+    }
+    
+    /* 2. Fix the top header strip to match */
+    [data-testid="stHeader"] {
+        background-color: rgba(0,0,0,0); /* Make it transparent */
+    }
+    
+    /* 4. Text Styling */
+    h1 {
+        color: white !important;
+        font-family: 'Georgia', serif;
+        text-shadow: 2px 2px 4px #000000;
+    }
+    h2, p {
+        color: white !important;
+        text-shadow: 1px 1px 2px #000000;
+        text-align: center;
+    }
+
+    /* 5. Button Styling */
+    .stButton>button {
+        color: #a30000;
+        background-color: red;
+        border-radius: 20px;
+        font-weight: bold;
+        border: 2px solid gold; /* A little gold border for luxury */
+        height: 3em;
+        width: 100%;
+    }
     </style>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
-# --- APP LOGIC ---
+#snow falling
+st.snow()
 
-# 3. URL PERSONALIZATION
-# Allow the URL to determine the name (e.g. app.py?name=Grandma)
-# If no name is in the link, default to "Friend"
-query_params = st.query_params
-name = query_params.get("name", "Friend")
+col_a, col_b, col_c = st.columns([1,1,1])
+#with col_b:
+    #st.image("https://cdn-icons-png.flaticon.com/512/3798/3798197.png", width=150)
 
-# 4. SESSION STATE (The "Unwrapping" Logic)
-# We use session_state to remember if the gift has been opened
-if 'gift_opened' not in st.session_state:
-    st.session_state.gift_opened = False
+#container for card
+st.markdown('<div class="festive-card">', unsafe_allow_html=True)
 
-def open_gift():
-    st.session_state.gift_opened = True
+st.title("To Mam ❤️")
+st.header("Merry Christmas!")
+st.write("""
+Thank you for all that you do for us, we never say it enough but we are truly grateful. We couldn't ask for a better mam. We love you more than words can describe 
+and hope you have an amazing Christmas filled with joy and relaxation.
+""")
+st.write("Speaking of relaxation...")
 
-# --- THE LAYOUT ---
+st.markdown('</div>', unsafe_allow_html=True)
 
-# Header
-st.title(f"❄️ Happy Holidays, Mam! ❄️")
+st.write("") # Spacing
 
-# We use columns to center content perfectly
-col1, col2, col3 = st.columns([1, 2, 1])
+col1, col2, col3 = st.columns([0.5, 2, 0.5])
 
+#gift reveal
 with col2:
-    if not st.session_state.gift_opened:
-        # STATE 1: THE CLOSED GIFT
-        st.markdown("### I have a surprise for you...")
-        st_lottie(lottie_gift, height=200, key="gift")
+    if st.button("🎁 Click to open your gift 🎁"):
         
-        # The button triggers the state change
-        st.button("🎁 TAP TO UNWRAP 🎁", on_click=open_gift)
+        st.balloons()
         
-    else:
-        # STATE 2: THE REVEAL
-        # Trigger effects immediately
-        st.snow()
-        
-        st.markdown("### ✨ Wishing you a magical 2026! ✨")
-        st_lottie(lottie_santa, height=300, key="santa")
-        
+        #voucher pop up
         st.markdown("""
-        > "May your code compile on the first try, 
-        > and your coffee always be hot."
-        """)
+            <div style="background-color: #black; color: #a30000; padding: 30px; border-radius: 15px; border: 4px dashed #a30000; text-align: center; box-shadow: 0px 0px 20px gold;">
+                <h2 style="color: #a30000 !important; margin: 0; text-shadow: none;">SPA VOUCHER!!!</h2>
+                <h1 style="color: #d4af37 !important; margin: 10px 0; font-size: 50px; text-shadow: 1px 1px 1px #000;">205€</h1>
+                <p style="color: black !important; font-size: 18px; text-shadow: none;">
+                <b>For the Unique Day Spa</b><br>
+                We know you've been wanting to try that Japanese Head Massage!!<br>
+                <br>
+                <i>Love Daniel, Sophie and Dad</i>
+                </p>
+            </div>
+        """, unsafe_allow_html=True)
         
-        if st.button("Close Gift 🔄"):
-            st.session_state.gift_opened = False
-            st.rerun()
-
-# Footer
-st.markdown("---")
-st.markdown(f"Made with ❤️ and Python for {name}")
+        #st.image("https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmc1dnh1NHUwaTBkaTVyZG4zZmtnMGYxZm4zYnlpd3Q5cnBxdWlnZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/fZlP5WCnQXo2s/giphy.gif")
+        st.markdown("""
+            <div style="display: flex; justify-content: center;">
+                <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmc1dnh1NHUwaTBkaTVyZG4zZmtnMGYxZm4zYnlpd3Q5cnBxdWlnZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/fZlP5WCnQXo2s/giphy.gif" width="300" style="border-radius: 15px; box-shadow: 0px 0px 15px white;">
+            </div>
+        """, unsafe_allow_html=True)
